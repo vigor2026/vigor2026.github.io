@@ -285,3 +285,37 @@ body {
   font-size: 0.95rem;
   line-height: 1.3;
 }
+
+
+
+.vigor-letter {
+  font-weight: 800;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4, #22c55e);
+  background-size: 500% 100%;
+  /* 5 slices for V I G O R */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* fixed positions so colors match between "VIGOR" and the letters in the title */
+.vigor-V {
+  background-position: 0% 0;
+}
+
+.vigor-I {
+  background-position: 25% 0;
+}
+
+.vigor-G {
+  background-position: 50% 0;
+}
+
+.vigor-O {
+  background-position: 75% 0;
+}
+
+.vigor-R {
+  background-position: 100% 0;
+}
