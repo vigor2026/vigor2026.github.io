@@ -1,204 +1,149 @@
+/* =========================
+   VIGOR polish (layout + type)
+   Paste at end of index.css
+   ========================= */
+
+/* prevent navbar covering anchor jumps */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding-top: 3.25rem;
 }
 
-
-.footer .icon-link {
-    font-size: 25px;
-    color: #000;
+/* overall typography (simple, clean like PyRoki/LERF) */
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.55;
+  color: #111;
 }
 
-.link-block a {
-    margin-top: 5px;
-    margin-bottom: 5px;
+.vigor-hero {
+  padding-top: 1.2rem;
+  padding-bottom: 0.6rem;
 }
 
-.dnerf {
-  font-variant: small-caps;
-}
-
-
-.teaser .hero-body {
-  padding-top: 0;
-  padding-bottom: 3rem;
-}
-
-.teaser {
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-
-.publication-title {
-}
-
-.publication-banner {
-  max-height: parent;
-
-}
-
-.publication-banner video {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  object-fit: fit;
-}
-
-.publication-header .hero-body {
-}
-
-.publication-title {
-    font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.publication-authors {
-    font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.publication-venue {
-    color: #555;
-    width: fit-content;
-    font-weight: bold;
-}
-
-.publication-awards {
-    color: #ff3860;
-    width: fit-content;
-    font-weight: bolder;
-}
-
-.publication-authors {
-}
-
-.publication-authors a {
-   color: hsl(204, 86%, 53%) !important;
-}
-
-.publication-authors a:hover {
-    text-decoration: underline;
-}
-
-.author-block {
-  display: inline-block;
-}
-
-.publication-banner img {
-}
-
-.publication-authors {
-  /*color: #4286f4;*/
-}
-
-.publication-video {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
-
-    overflow: hidden;
-    border-radius: 10px !important;
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-.publication-video iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.video-caption {
-    max-width: 960px;
-    margin: 1.25rem auto 0;
-    padding: 0 1rem;
-}
-
-.method-intro {
-    margin-bottom: 0.35rem !important;
-}
-
-.method-list {
-    margin-top: 0.1rem !important;
-    padding-left: 1.5rem;
-}
-
-.vision-compare-head .column.is-half:nth-child(2),
-.vision-compare .column.is-half:nth-child(2n) {
-    border-left: 1px solid #d8d8d8;
+.vision-compare .column.is-half {
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .vision-compare .column.is-half:nth-child(2n) {
-    padding-left: 1.5rem;
+  border-right: none;
 }
 
-.vision-compare .column.is-half:nth-child(2n-1) {
-    padding-right: 1.5rem;
+
+/* title sizing: less “bulma huge”, more balanced */
+.vigor-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: 2.35rem;
+  /* desktop */
 }
 
-@media screen and (max-width: 768px) {
-    .vision-compare-head .column.is-half:nth-child(2),
-    .vision-compare .column.is-half:nth-child(2n) {
-        border-left: none;
-    }
-
-    .vision-compare .column.is-half:nth-child(2n),
-    .vision-compare .column.is-half:nth-child(2n-1) {
-        padding-left: 0;
-        padding-right: 0;
-    }
+@media (max-width: 768px) {
+  .vigor-title {
+    font-size: 1.7rem;
+  }
 }
 
-video {
+.vigor-subtitle {
+  margin-top: 0.65rem;
+  margin-bottom: 0.9rem;
+  font-size: 1.05rem;
+  color: #444;
+}
+
+/* link row: tighter and consistent */
+.vigor-links .button {
+  margin: 0.15rem 0.2rem;
+}
+
+/* TL;DR line like PyRoki */
+.vigor-tldr {
+  margin-top: 0.9rem;
+  font-size: 0.98rem;
+  color: #333;
+}
+
+/* section spacing: reduce “too tall” feeling */
+.section {
+  padding-top: 2.2rem;
+  padding-bottom: 2.2rem;
+}
+
+.vigor-prose p {
+  margin-bottom: 0.9rem;
+}
+
+/* video presentation: rounded + shadow, consistent size behavior */
+.vigor-video-grid .content {
+  margin-top: 0.5rem;
+}
+
+.vigor-video {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  background: #000;
+}
+
+/* small titles on each video: less huge than is-4 */
+.vigor-card-title {
+  margin-bottom: 0.45rem !important;
+  font-weight: 700;
+}
+
+/* method figure nicer */
+.vigor-figure img {
+  border-radius: 50px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+/* Teaser "Under construction" box */
+.vigor-teaser-box {
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.vigor-teaser-inner {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.vigor-teaser-icon {
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  color: #222;
+  flex: 0 0 auto;
 }
 
-.publication-body img {
+.vigor-teaser-title {
+  font-weight: 800;
+  margin-bottom: 0.15rem;
 }
 
-.results-carousel {
-  overflow: hidden;
-}
-
-.results-carousel .item {
-  margin: 5px;
-  overflow: hidden;
-  border: 1px solid #bbb;
-  border-radius: 10px;
-  padding: 0;
-  font-size: 0;
-}
-
-.results-carousel video {
+.vigor-teaser-text {
+  color: #444;
   margin: 0;
 }
 
-
-.interpolation-panel {
-  background: #f5f5f5;
-  border-radius: 10px;
+/* Navbar tweaks */
+.vigor-navbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.interpolation-panel .interpolation-image {
-  width: 100%;
-  border-radius: 5px;
-}
-
-.interpolation-video-column {
-}
-
-.interpolation-panel .slider {
-  margin: 0 !important;
-}
-
-.interpolation-panel .slider {
-  margin: 0 !important;
-}
-
-#interpolation-image-wrapper {
-  width: 100%;
-}
-#interpolation-image-wrapper img {
-  border-radius: 5px;
+.vigor-brand {
+  letter-spacing: -0.02em;
 }

@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="A method for jointly solving humanoid stand-up and fall recovery tasks.">
+  <meta name="description" content="A method for jointly solving humanoid stand-up and fall recovery tasks.">
   <meta name="keywords" content="VIGOR, Humanoid">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VIGOR: Humanoid Fall Safety</title>
+  <title>VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-PYVRSFMDRL');
   </script>
 
@@ -26,8 +21,7 @@
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
@@ -36,655 +30,679 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+
+  <style>
+    body {
+      padding-top: 3.25rem;
+    }
+
+    .section {
+      padding-top: 3.5rem;
+      padding-bottom: 3.5rem;
+    }
+
+    /* more spacing between author names */
+    .vigor-authors .author-block {
+      margin: 0 0.58rem;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    /* UMich mark line (image only) */
+    .vigor-affil {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.35rem;
+    }
+
+    /* teaser video container */
+    .vigor-teaser-video {
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+    }
+
+    .vigor-teaser-video video,
+    .vigor-teaser-video iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+    }
+
+    /* clean "under construction" note */
+    .vigor-callout {
+      margin-top: 0.9rem;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.10);
+      background: rgba(0, 0, 0, 0.02);
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .vigor-callout i {
+      margin-top: 0.1rem;
+    }
+
+    .vigor-callout .titleline {
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+
+    .vigor-callout .small {
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    /* videos look consistent */
+    .vigor-video {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #000;
+    }
+
+    /* nicer small titles above videos */
+    .vigor-card-title {
+      margin-bottom: 0.55rem !important;
+    }
+
+    /* method figure */
+    .vigor-figure {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+
+    .vigor-figure img {
+      width: 100%;
+      /* IMPORTANT */
+      height: auto;
+      /* IMPORTANT */
+      display: block;
+      /* IMPORTANT */
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    /* Bottom “bar” feel */
+    .vigor-footer-topbar {
+      border-top: 1px solid rgba(17, 24, 39, 0.08);
+      padding-top: 1.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .vigor-footer-title {
+      font-weight: 600;
+    }
+
+    .vigor-footer-muted {
+      color: #6b7280;
+    }
+  </style>
 </head>
+
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <!-- <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
+  <nav class="navbar is-white is-fixed-top vigor-navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item vigor-brand" href="#top">
+        <strong>VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety</strong>
       </a>
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="vigorNavbarMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="vigorNavbarMenu" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#abstract">Abstract</a>
+        <a class="navbar-item" href="#teaser">Teaser</a>
+        <a class="navbar-item" href="#vision">Vision</a>
+
+        <a class="navbar-item" href="#method">Method</a>
+        <a class="navbar-item" href="#fall">Fall</a>
+        <a class="navbar-item" href="#stand">Stand-Up</a>
+        <a class="navbar-item" href="#sim">Sim</a>
+        <a class="navbar-item" href="#limits">Limitations</a>
+        <a class="navbar-item" href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="top"></div>
+
+  <section class="hero vigor-hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <h1 class="title is-1 publication-title vigor-title">
+              VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety
+            </h1>
+
+            <p class="vigor-subtitle">
+              Unified fall mitigation + stand-up recovery with egocentric vision.
+            </p>
+
+            <div class="is-size-5 publication-authors vigor-authors">
+              <span class="author-block"><a href="https://osheraz.github.io/">Osher Azulay</a></span>
+              <span class="author-block"><a href="https://jerryxu0907.github.io/">Zhengjie Xu</a></span>
+              <span class="author-block"><a href="https://schefferac2020.github.io/">Andrew Scheffer</a></span>
+              <span class="author-block"><a href="https://web.eecs.umich.edu/~stellayu/">Stella X. Yu</a></span>
+            </div>
+
+            <!-- UMich image only (no text) -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block vigor-affil">
+                <img src="./static/images/umich.png" alt="University of Michigan" style="height: 36px; width: auto;">
+              </span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links vigor-links">
+                <span class="link-block">
+                  <a href="https://www.google.com" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://www.google.com" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://www.google.com" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-youtube"></i></span>
+                    <span>Video</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://www.google.com" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code (coming soon)</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+
+            <p class="vigor-tldr">
+              <strong>TL;DR:</strong> A teacher-student framework that distills terrain-aware recovery goals into a
+              deployable egocentric-depth policy.
+            </p>
+
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-  </div> -->
-</nav>
+  <!-- ABSTRACT -->
+  <section class="section fall-recovery" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified vigor-prose">
+            <p>
+              Reliable fall-recovery is essential for enabling humanoid robots to operate in real, cluttered
+              environments. Unlike
+              quadrupeds and wheeled systems, humanoids experience high-energy impacts, complex whole-body contact, and
+              significant
+              viewpoint changes during a fall, and failure to stand up leaves the robot effectively inoperable.
+              Existing approaches either treat
+              impact mitigation and standing as separate modules or assume
+              flat terrain and blind proprioceptive sensing, limiting robustness
+              and safety in unstructured settings.
+              We introduce a unified framework for fall mitigation and stand-up recovery with perceptual awareness using
+              egocentric vision. Our method employs
+              a privileged teacher that learns recovery strategies conditioned
+              on sparse demonstration priors and local terrain geometry, and
+              a deployable student that infers the teacher’s goal representation
+              from egocentric depth and short-term proprioception via distillation. This enables the student to reason
+              about both how to fall
+              and how to get up while avoiding unsafe contacts. Simulation experiments demonstrate higher success and
+              safer recovery across
+              diverse non-flat terrains and disturbance conditions compared to blind baselines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-
-<section class="hero">
-  <div class="hero-body">
+  <!-- TEASER -->
+  <section class="section" id="teaser">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://osheraz.github.io/">Osher Azulay</a>,</span>
-            <span class="author-block">
-              <a href="https://jerryxu0907.github.io/">Zhengjie Xu</a>,</span>
-            <span class="author-block">
-              <a href="https://schefferac2020.github.io/">Andrew Scheffer</a>,</span>
-            <span class="author-block">
-              <a href="https://web.eecs.umich.edu/~stellayu/">Stella X. Yu</a></span>
-
+        <div class="column is-four-fifths">
+          <div class="vigor-teaser-video">
+            <video autoplay muted loop playsinline controls>
+              <source src="./static/videos/teaser.mp4" type="video/mp4">
+            </video>
           </div>
 
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">University of Michigan</span>
-          </div>
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://www.google.com"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://www.google.com"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.google.com"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://www.google.com"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code (coming soon)</span>
-                  </a>
-              </span>
+          <div class="vigor-callout">
+            <i class="fas fa-tools"></i>
+            <div class="has-text-centered">
+              <div class="titleline">Teaser is Under Construction</div>
             </div>
-
           </div>
+
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Paper video. -->
-<!-- <div class="columns is-centered has-text-centered">
-    <div class="column is-four-fifths">
-    <div class="publication-video">
-        <iframe src="https://www.youtube.com/embed/asdfasdf?rel=0&amp;showinfo=0"
-                frameborder="0" allow="autoplay; encrypted-media"></iframe>
-    </div>
+  <!-- VISION -->
+  <section class="section" id="vision">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Vision-Enabled Fall Recovery</h2>
 
-    <h2 class="subtitle has-text-centered video-caption">
-        We propose a vision-enabled learning method for jointly solving humanoid stand-up and fall recovery tasks. Our learned policy can be directly deployed on Unitree G1 humanoid robots.
-    </h2>
-
-    </div>
-    
-</div> -->
-<!--/ Paper video. -->
-
-<!-- <section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        We propose a vision-enabled learning method for jointly solving humanoid stand-up and fall recovery tasks. Our learned policy can be directly deployed on Unitree G1 humanoid robots.
-      </h2>
-    </div>
-  </div>
-</section> -->
-
-
-<!-- <section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-
-<section class="section fall-recovery">
-  <div class="container is-max-widescreen">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
+          <div class="content has-text-justified vigor-prose">
             <p>
-                Reliable fall-recovery is essential for enabling humanoid robots to operate in real, cluttered environments. Unlike
-                quadrupeds and wheeled systems, humanoids experience high-energy impacts, complex whole-body contact, and significant
-                viewpoint changes during a fall, and failure to stand up leaves the robot effectively inoperable. 
-
+              We investigate the impact of vision on fall recovery by comparing our visual policy to a blind
+              proprioceptive-only policy.
+              The controller is activated <strong>only after the robot tilts 20 degrees</strong>, ensuring recovery
+              begins from a true fall.
+              The blind policy exhibits <strong>more unsafe behaviors</strong>, including increased head and neck
+              contacts and erratic motions.
             </p>
-
-            <p>
-                Existing approaches either treat
-                impact mitigation and standing as separate modules or assume
-                flat terrain and blind proprioceptive sensing, limiting robustness
-                and safety in unstructured settings. 
-            </p>  
-
-            <p>
-                We introduce a unified framework for fall mitigation and stand-up recovery with perceptual awareness using egocentric vision. Our method employs
-                a privileged teacher that learns recovery strategies conditioned
-                on sparse demonstration priors and local terrain geometry, and
-                a deployable student that infers the teacher’s goal representation
-                from egocentric depth and short-term proprioception via distillation. This enables the student to reason about both how to fall
-                and how to get up while avoiding unsafe contacts. Simulation experiments demonstrate higher success and safer recovery across
-                diverse non-flat terrains and disturbance conditions compared to blind baselines.
-            </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-
-
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered has-text-centered">
-
-
-      <div class="column is-four-fifths">
-        <h2 class="title is-2">Vision-Enabled Fall Recovery</h2>
-
-        <div class="content has-text-justified">
-            <p>
-                We investigate the impact of vision on fall recovery performance by comparing our visual policy against a blind proprioceptive-only policy. In these experiments, we start the robot in a default pose, and engage the policy once the robot has tilted 20 degrees. We find <strong>the blind policy exhibits more unsafe behaviors</strong>, with increased head/neck contacts and spuriously erratic motions.
-            </p>
-        </div>
-
-
-        <div class="columns is-mobile ">
-          <div class="column is-half">
-            <p class="title is-5 has-text-centered"><span class="has-text-danger">Unsafe</span> Blind policy</p>
           </div>
-          <div class="column is-half">
-            <p class="title is-5 has-text-centered"><span class="has-text-success">Safe</span> Visual policy (ours)</p>
-          </div>
-        </div>
 
-        <div class="columns is-multiline vision-compare">
-          <div class="column is-half">
-            <div class="content">
-              <!-- <h2 class="title is-4">Forward fall</h2> -->
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/comparison/blind_sideways_ext.mp4" type="video/mp4">
-              </video>
+          <div class="columns is-mobile">
+            <div class="column is-half">
+              <p class="title is-5 has-text-centered"><span class="has-text-danger">Unsafe</span> Blind policy</p>
             </div>
-          </div>
-        
-          <div class="column is-half">
-            <div class="content">
-              <!-- <h2 class="title is-4">Backward fall</h2> -->
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/comparison/visual_sideways_overlay.mp4" type="video/mp4">
-              </video>
+            <div class="column is-half">
+              <p class="title is-5 has-text-centered"><span class="has-text-success">Safe</span> Visual policy (ours)
+              </p>
             </div>
           </div>
 
-
-
-          <div class="column is-half">
-            <div class="content">
-              <!-- <h2 class="title is-4">Sideways fall</h2> -->
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/comparison/blind_stair_FLIP_ext.mp4" type="video/mp4">
-              </video>
+          <div class="columns is-multiline vision-compare">
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/blind_sideways_ext.mp4" type="video/mp4">
+                </video>
+              </div>
             </div>
-          </div>
 
-          <div class="column is-half">
-            <div class="content">
-              <!-- <h2 class="title is-4">Diagonal on stairs</h2> -->
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/comparison/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
-              </video>
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/visual_sideways_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/blind_stair_FLIP_ext.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
             </div>
           </div>
 
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
+  <!-- METHOD -->
+  <section class="section" id="method">
+    <div class="container is-max-desktop">
 
-<section class="section">
-  <div class="container is-max-desktop">
+      <!-- Text stays narrow -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Method Overview</h2>
 
-    <div class="columns is-centered has-text-centered">
+          <p class="content has-text-left method-intro">
+            Our visual fall-recovery policy training pipeline has four key components:
+          </p>
 
-
-      <div class="column is-four-fifths">
-        <h2 class="title is-2">Fall Recovery Experiments</h2>
-
-        <div class="content has-text-justified">
-            <p>
-                We evaluate our policy on fall mitigation tasks across diverse terrains. We start the robot in a default pose, and engage the policy once the robot has tilted past 20 degrees. 
-            </p>
-        </div>
-
-
-        <div class="columns is-multiline is-centered">
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Forward fall</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_forward_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-        
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Backward fall</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_backward_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Sideways fall</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_sideways_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Toward stairs</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_towards_stairs_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Diagonal on stairs</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_diag_on_stairs_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Diagonal on stairs</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Stones</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_stones_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Stones</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/fall_mitigation/fall_stones2_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
+          <ul class="content has-text-left method-list vigor-prose">
+            <li><strong>1. Motion retargeting:</strong> Human fall–recovery demonstrations are kinematically retargeted
+              to the robot.</li>
+            <li><strong>2. Terrain alignment:</strong> References are used directly on flat terrain and coarsely
+              projected onto uneven terrain to provide sparse tracking targets.</li>
+            <li><strong>3. Teacher policy learning:</strong> A privileged teacher is trained with RL and learns a Visual
+              Goal-in-Context representation that captures the immediate recovery pose and local terrain.</li>
+            <li><strong>4. Goal-in-context distillation:</strong> A student distills the teacher’s terrain-aware
+              recovery behavior from egocentric depth and short-term proprioceptive history for deployment.</li>
+          </ul>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-
-<!-- Standing Up Experinment-->
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-2">Standing Up Experiments</h2>
-
-        <div class="content has-text-justified">
-            <p>
-                We also evaluate our policy on standing up tasks across many different terrains with diverse initial configurations. 
-            </p>
-        </div>
-    
-        <div class="columns is-multiline">
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Flat</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/face_up_ground_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Stones</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/face_down_stones_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Box (face up)</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/sitting_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Box (face down)</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/face_down_on_box_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Stairs (face up)</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/stand_up_draped_face_up_over_stair_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Stairs (face down)</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/face_down_on_stairs_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Gap (face down)</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/stand_up_over_gap_face_down_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Gap (face up)</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/stand_up_over_gap_face_up_FLIP_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-          <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
-            <div class="content">
-              <h2 class="title is-4">Legs up</h2>
-              <video autoplay controls muted loop playsinline height="100%">
-                <source src="./static/videos/stand_up/legs_up_face_down_overlay.mp4" type="video/mp4">
-              </video>
-            </div>
-          </div>
-
-        </div>
-
-
-
-
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Our Method -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-2"><strong>VIGOR</strong>: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety</h2>
-        <p class="content has-text-left method-intro">Our visual fall-recovery RL training pipeline has four key components:</p>
-        <ul class="content has-text-left method-list">
-          <li><strong>1. Motion retargeting:</strong> Human fall–recovery demonstrations are kinematically retargeted to the robot.</li>
-          <li><strong>2. Terrain alignment:</strong> References are used directly on flat terrain and coarsely projected onto uneven terrain to provide sparse tracking targets.</li>
-          <li><strong>3. RL Teacher Policy Learning:</strong> A privileged policy is trained with RL, starting on flat terrain and progressively extended to complex terrains.</li>
-          <li><strong>4. Visual Goal Distillation:</strong> A student distills the teacher’s terrain‑aware recovery behavior from egocentric depth and short‑term proprioceptive history for deployment.</li>
-        </ul>
-        <div class="content">
-          <figure class="image">
+      <!-- Figure gets the full container width -->
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <figure class="image vigor-figure">
             <img src="./static/images/method.png" alt="Our method diagram">
           </figure>
         </div>
       </div>
+
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- Simulation Experiments-->
-<section class="section">
-  <div class="container is-max-desktop">
+  <!-- FALL -->
+  <section class="section" id="fall">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Fall Recovery Experiments</h2>
 
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-2">Simulation Experiments</h2>
-                <div class="columns is-centered">
+          <div class="content has-text-justified vigor-prose">
+            <p>
+              We evaluate our policy on fall mitigation tasks across diverse terrains. We start the robot in a default
+              pose, and engage the policy once the robot has tilted past 20 degrees.
+            </p>
+          </div>
 
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-4">Face down</h2>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/stand_up/face_down_on_ground_deleted.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
+          <div class="columns is-multiline is-centered">
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Forward fall</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_forward_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
 
-      <div class="column">
-        <h2 class="title is-4">Face up</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <video id="matting-video" autoplay controls muted loop playsinline height="100%">
-              <source src="./static/videos/stand_up/face_up_on_ground_deleted.mp4"
-                      type="video/mp4">
-            </video>
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Backward fall</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_backward_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Sideways fall</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_sideways_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Toward stairs</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_towards_stairs_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Diagonal on stairs</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_diag_on_stairs_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Diagonal on stairs</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Stones</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_stones_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Stones</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/fall_mitigation/fall_stones2_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
           </div>
 
         </div>
       </div>
     </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
+  <!-- STAND -->
+  <section class="section" id="stand">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Standing Up Experiments</h2>
 
-<!-- Simulation Experiments-->
-<section class="section">
-  <div class="container is-max-desktop">
+          <div class="content has-text-justified vigor-prose">
+            <p>
+              We also evaluate our policy on standing up tasks across many different terrains with diverse initial
+              configurations.
+            </p>
+          </div>
 
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-2">Failure Modes and Limitations</h2>
-                <div class="columns is-centered">
+          <div class="columns is-multiline">
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Flat</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/face_up_ground_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
 
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-4">Backwards Motion</h2>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/failure/backwards_motion.mp4"
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Stones</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/face_down_stones_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Box (face up)</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/sitting_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Box (face down)</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/face_down_on_box_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Stairs (face up)</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/stand_up_draped_face_up_over_stair_FLIP_overlay.mp4"
                     type="video/mp4">
-          </video>
-        </div>
-      </div>
+                </video>
+              </div>
+            </div>
 
-      <div class="column">
-        <h2 class="title is-4">Mat Interference</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <video id="matting-video" autoplay controls muted loop playsinline height="100%">
-              <source src="./static/videos/failure/mat_interference.mp4"
-                      type="video/mp4">
-            </video>
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Stairs (face down)</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/face_down_on_stairs_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Gap (face down)</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/stand_up_over_gap_face_down_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Gap (face up)</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/stand_up_over_gap_face_up_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-one-third-desktop is-half-tablet is-full-mobile">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Legs up</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/stand_up/legs_up_face_down_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
           </div>
 
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- SIM -->
+  <section class="section" id="sim">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2 has-text-centered">Simulation Experiments</h2>
+
+          <div class="vigor-callout">
+            <i class="fas fa-tools"></i>
+            <div class="has-text-centered">
+              <div class="titleline">Under Construction</div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
+  <!-- LIMITS -->
+  <section class="section" id="limits">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Failure Modes and Limitations</h2>
 
+          <div class="columns is-centered">
+            <div class="column">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Backwards Motion</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/failure/backwards_motion.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
 
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{test,
-  author    = {TODO< TODO},
+            <div class="column">
+              <div class="content">
+                <h3 class="title is-5 vigor-card-title">Mat Interference</h3>
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/failure/mat_interference.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIBTEX -->
+  <section class="section" id="bibtex">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{test,
+  author    = {TODO},
   title     = {TODO},
-  journal   = {FILL IN },
-  year      = {FILL IN },
+  journal   = {TODO},
+  year      = {TODO}
 }</code></pre>
-  </div>
-</section>
-
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
     </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            Page template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
-          </p>
-        </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="container is-max-desktop">
+      <div class="content has-text-centered vigor-footer-topbar">
+        <p class="vigor-footer-title">
+          VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety
+        </p>
+        <p class="vigor-footer-muted">
+          Page template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+        </p>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const burgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+      burgers.forEach(el => {
+        el.addEventListener('click', () => {
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+        });
+      });
+    });
+  </script>
 
 </body>
+
 </html>
