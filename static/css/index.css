@@ -257,3 +257,31 @@ body {
 #sim .vigor-sim-empty {
   visibility: hidden;
 }
+
+.vigor-sim-more {
+  border-radius: 12px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  /* roughly video tile height */
+}
+
+.vigor-sim-more-inner {
+  text-align: center;
+  padding: 1rem;
+}
+
+.vigor-sim-more-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+}
+
+.vigor-sim-more-sub {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}

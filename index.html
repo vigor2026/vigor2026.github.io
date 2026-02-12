@@ -31,122 +31,7 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 
-  <!-- <style>
-    body {
-      padding-top: 3.25rem;
-    }
 
-    .section {
-      padding-top: 3.5rem;
-      padding-bottom: 3.5rem;
-    }
-
-    .vigor-authors .author-block {
-      margin: 0 0.58rem;
-      display: inline-block;
-      white-space: nowrap;
-    }
-
-    .vigor-affil {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 0.35rem;
-    }
-
-    /* center teaser column contents */
-    #teaser .column.is-four-fifths {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* teaser box size */
-    #teaser .vigor-teaser-video {
-      width: 100%;
-      max-width: 960px;
-      /* change if you want narrower */
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      background: #fff;
-    }
-
-    /* teaser video height */
-    #teaser .vigor-teaser-video video {
-      width: 100%;
-      height: 260px;
-      /* change height here */
-      aspect-ratio: auto;
-      object-fit: cover;
-      display: block;
-    }
-
-    .vigor-callout {
-      margin-top: 0.9rem;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.10);
-      background: rgba(0, 0, 0, 0.02);
-      padding: 0.9rem 1rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .vigor-callout i {
-      margin-top: 0.1rem;
-    }
-
-    .vigor-callout .titleline {
-      font-weight: 700;
-      margin-bottom: 0.15rem;
-    }
-
-    .vigor-callout .small {
-      color: rgba(0, 0, 0, 0.65);
-    }
-
-    .vigor-video {
-      width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      background: #000;
-    }
-
-    .vigor-card-title {
-      margin-bottom: 0.55rem !important;
-    }
-
-    .vigor-figure {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .vigor-figure img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-    }
-
-    .vigor-footer-topbar {
-      border-top: 1px solid rgba(17, 24, 39, 0.08);
-      padding-top: 1.35rem;
-      margin-top: 0.25rem;
-    }
-
-    .vigor-footer-title {
-      font-weight: 600;
-    }
-
-    .vigor-footer-muted {
-      color: #6b7280;
-    }
-  </style> -->
 </head>
 
 <body>
@@ -173,7 +58,7 @@
         <a class="navbar-item" href="#method">Method</a>
         <a class="navbar-item" href="#fall">Fall</a>
         <a class="navbar-item" href="#stand">Stand-Up</a>
-        <a class="navbar-item" href="#sim">Sim</a>
+        <a class="navbar-item" href="#exp">Sim</a>
         <!-- <a class="navbar-item" href="#limits">Limitations</a> -->
         <a class="navbar-item" href="#bibtex">BibTeX</a>
       </div>
@@ -258,7 +143,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">Abstract</h2>
+          <h2 class="title is-3">Why Fall Safety?</h2>
           <div class="content has-text-justified vigor-prose">
             <p>
               Reliable fall-recovery is essential for enabling humanoid robots to operate in real, cluttered
@@ -473,8 +358,8 @@
                 </div>
               </div>
               <!-- PAGE 3 -->
+              <!-- PAGE 3 -->
               <div class="vigor-sim-page">
-                <!-- row 1: video, video, filler -->
                 <div class="vigor-sim-item">
                   <video class="vigor-video" autoplay controls muted loop playsinline>
                     <source src="./static/videos/sim/step_start_overlay.mp4" type="video/mp4">
@@ -487,9 +372,13 @@
                   </video>
                 </div>
 
-                <div class="vigor-sim-item vigor-sim-empty"></div>
+                <div class="vigor-sim-item vigor-sim-more">
+                  <div class="vigor-sim-more-inner">
+                    <div class="vigor-sim-more-title">More videos coming soon</div>
+                    <!-- <div class="vigor-sim-more-sub">We’re adding additional terrains + real-world runs.</div> -->
+                  </div>
+                </div>
 
-                <!-- row 2: video, video, filler -->
                 <div class="vigor-sim-item">
                   <video class="vigor-video" autoplay controls muted loop playsinline>
                     <source src="./static/videos/sim/steps_sidestand_good_overlay.mp4" type="video/mp4">
@@ -521,7 +410,7 @@
       <!-- Text stays narrow -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-2">Method Overview</h2>
+          <h2 class="title is-2">VIGOR Framework</h2>
 
           <p class="content has-text-left method-intro">
             Our visual fall-recovery policy training pipeline has four key components:
@@ -558,7 +447,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-2">Fall Recovery Experiments</h2>
+          <h2 class="title is-2">Fall Safety</h2>
 
           <div class="content has-text-justified vigor-prose">
             <p>
@@ -660,7 +549,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-2">Standing Up Experiments</h2>
+          <h2 class="title is-2">Stand-Up Recovery</h2>
 
           <div class="content has-text-justified vigor-prose">
             <p>
