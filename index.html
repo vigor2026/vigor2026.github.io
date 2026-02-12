@@ -6,7 +6,7 @@
   <meta name="description" content="A method for jointly solving humanoid stand-up and fall recovery tasks.">
   <meta name="keywords" content="VIGOR, Humanoid">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety</title>
+  <title>VIGOR</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -31,7 +31,7 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
 
-  <style>
+  <!-- <style>
     body {
       padding-top: 3.25rem;
     }
@@ -41,14 +41,12 @@
       padding-bottom: 3.5rem;
     }
 
-    /* more spacing between author names */
     .vigor-authors .author-block {
       margin: 0 0.58rem;
       display: inline-block;
       white-space: nowrap;
     }
 
-    /* UMich mark line (image only) */
     .vigor-affil {
       display: inline-flex;
       align-items: center;
@@ -57,8 +55,18 @@
       margin-top: 0.35rem;
     }
 
-    /* teaser video container */
-    .vigor-teaser-video {
+    /* center teaser column contents */
+    #teaser .column.is-four-fifths {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* teaser box size */
+    #teaser .vigor-teaser-video {
+      width: 100%;
+      max-width: 960px;
+      /* change if you want narrower */
       border-radius: 14px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -66,14 +74,16 @@
       background: #fff;
     }
 
-    .vigor-teaser-video video,
-    .vigor-teaser-video iframe {
+    /* teaser video height */
+    #teaser .vigor-teaser-video video {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 260px;
+      /* change height here */
+      aspect-ratio: auto;
+      object-fit: cover;
       display: block;
     }
 
-    /* clean "under construction" note */
     .vigor-callout {
       margin-top: 0.9rem;
       border-radius: 12px;
@@ -98,7 +108,6 @@
       color: rgba(0, 0, 0, 0.65);
     }
 
-    /* videos look consistent */
     .vigor-video {
       width: 100%;
       border-radius: 12px;
@@ -107,30 +116,23 @@
       background: #000;
     }
 
-    /* nicer small titles above videos */
     .vigor-card-title {
       margin-bottom: 0.55rem !important;
     }
 
-    /* method figure */
     .vigor-figure {
       max-width: 800px;
       margin: 0 auto;
     }
 
-
     .vigor-figure img {
       width: 100%;
-      /* IMPORTANT */
       height: auto;
-      /* IMPORTANT */
       display: block;
-      /* IMPORTANT */
       border-radius: 12px;
       border: 1px solid rgba(0, 0, 0, 0.08);
     }
 
-    /* Bottom “bar” feel */
     .vigor-footer-topbar {
       border-top: 1px solid rgba(17, 24, 39, 0.08);
       padding-top: 1.35rem;
@@ -144,7 +146,7 @@
     .vigor-footer-muted {
       color: #6b7280;
     }
-  </style>
+  </style> -->
 </head>
 
 <body>
@@ -190,9 +192,9 @@
               VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety
             </h1>
 
-            <p class="vigor-subtitle">
+            <!-- <p class="vigor-subtitle">
               Unified fall mitigation + stand-up recovery with egocentric vision.
-            </p>
+            </p> -->
 
             <div class="is-size-5 publication-authors vigor-authors">
               <span class="author-block"><a href="https://osheraz.github.io/">Osher Azulay</a></span>
@@ -373,6 +375,142 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="section" id="sim">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2 has-text-centered">Unified fall mitigation + stand-up recovery with egocentric vision.
+          </h2>
+
+          <div class="vigor-sim-carousel">
+            <button class="vigor-sim-btn left" type="button" aria-label="Previous">‹</button>
+
+            <div class="vigor-sim-track" id="simTrack">
+              <!-- PAGE 1 (2 rows x 3 cols = 6) -->
+
+
+              <!-- PAGE 1 -->
+              <div class="vigor-sim-page">
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">stairs crawl 0</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/sim_stairs_crawl0_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">stairs fall 0</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/sim_stairs_fall0_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">stairs on back</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/sim_stairs_on_back0_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">wave 3</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/sim_wave3_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">slope crawl stand</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/slope_crawl_stand_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">stand steps good</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/stand_steps_goood_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+
+              <div class="vigor-sim-page">
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">fall on steps</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/fall_on_steps_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">gym back stand</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/gym_back_stand.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">gym fall stairs</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/gym_fall_staris.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">gym rough</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/gym_rough.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">gym stairs</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/gym_Stairs.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item">
+                  <!-- <p class="title is-5 vigor-card-title">fall slope 3</p> -->
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/sim_fall3_slope_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+              <!-- PAGE 3 -->
+              <div class="vigor-sim-page">
+                <!-- row 1: video, video, filler -->
+                <div class="vigor-sim-item">
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/step_start_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item">
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/steps_back_stand_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item vigor-sim-empty"></div>
+
+                <!-- row 2: video, video, filler -->
+                <div class="vigor-sim-item">
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/steps_sidestand_good_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item">
+                  <video class="vigor-video" autoplay controls muted loop playsinline>
+                    <source src="./static/videos/sim/wave_crawl_stand_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <div class="vigor-sim-item vigor-sim-empty"></div>
+              </div>
+
+              <button class="vigor-sim-btn right" type="button" aria-label="Next">›</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
   </section>
 
 
@@ -621,7 +759,7 @@
   </section>
 
   <!-- SIM -->
-  <section class="section" id="sim">
+  <section class="section" id="exp">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column is-four-fifths">
@@ -638,6 +776,7 @@
       </div>
     </div>
   </section>
+
 
   <!-- LIMITS
   <section class="section" id="limits">
@@ -711,7 +850,22 @@
       });
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const track = document.getElementById('simTrack');
+      if (!track) return;
 
+      const btnL = document.querySelector('#sim .vigor-sim-btn.left');
+      const btnR = document.querySelector('#sim .vigor-sim-btn.right');
+
+      const scrollPage = (dir) => {
+        track.scrollBy({ left: dir * track.clientWidth, behavior: 'smooth' });
+      };
+
+      btnL.addEventListener('click', () => scrollPage(-1));
+      btnR.addEventListener('click', () => scrollPage(1));
+    });
+  </script>
 </body>
 
 </html>
