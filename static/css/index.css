@@ -319,3 +319,8 @@ body {
 .vigor-R {
   background-position: 100% 0;
 }
+
+.vigor-callout {
+  margin-bottom: 2rem;
+  /* adjust as needed */
+}
