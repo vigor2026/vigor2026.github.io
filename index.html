@@ -54,7 +54,7 @@
         <a class="navbar-item" href="#abstract">Abstract</a>
         <a class="navbar-item" href="#teaser">Teaser</a>
         <a class="navbar-item" href="#vision">Vision</a>
-
+        <a class="navbar-item" href="#viser">Viser</a>
         <a class="navbar-item" href="#method">Method</a>
         <a class="navbar-item" href="#fall">Fall</a>
         <a class="navbar-item" href="#stand">Stand-Up</a>
@@ -352,7 +352,77 @@
       </div>
   </section>
 
+  <section class="section" id="viser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-2 has-text-centered">Interactive 3D Rollouts</h2>
 
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+
+        <!-- TEACHER -->
+        <div class="viser-card" style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
+          <div style="padding:10px; font-weight:700;">Teacher</div>
+
+          <div class="tabs is-small is-toggle is-toggle-rounded" style="padding:0 10px 10px 10px; margin:0;">
+            <ul id="teacherTabs"></ul>
+          </div>
+
+          <div style="position:relative; aspect-ratio:16/9;">
+            <iframe id="teacherFrame" src="/viser-client/?playbackPath=/recordings/teacher_run/test/scene.viser"
+              style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- BLIND -->
+        <div class="viser-card" style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
+          <div style="padding:10px; font-weight:700;">Student (Blind)</div>
+
+          <div class="tabs is-small is-toggle is-toggle-rounded" style="padding:0 10px 10px 10px; margin:0;">
+            <ul id="blindTabs"></ul>
+          </div>
+
+          <div style="position:relative; aspect-ratio:16/9;">
+            <iframe id="blindFrame" src="/viser-client/?playbackPath=/recordings/blind_run/test/scene.viser"
+              style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- DEPTH -->
+        <div class="viser-card" style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
+          <div style="padding:10px; font-weight:700;">Student (Depth)</div>
+
+          <div class="tabs is-small is-toggle is-toggle-rounded" style="padding:0 10px 10px 10px; margin:0;">
+            <ul id="depthTabs"></ul>
+          </div>
+
+          <div style="position:relative; aspect-ratio:16/9;">
+            <iframe id="depthFrame" src="/viser-client/?playbackPath=/recordings/depth_run/test/scene.viser"
+              style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+            </iframe>
+
+            <div style="
+            position:absolute;
+            top:8px;
+            right:8px;
+            width:22%;
+            max-width:140px;
+            aspect-ratio:1/1;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 8px 24px rgba(0,0,0,0.35);
+            border:1px solid rgba(255,255,255,0.4);
+          ">
+              <video id="depthVid" src="/recordings/depth_run/test/depth_pre.mp4" autoplay muted playsinline
+                preload="auto" style="width:100%; height:100%; object-fit:cover;">
+              </video>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
   <!-- VISION -->
   <section class="section" id="vision">
     <div class="container is-max-desktop">
@@ -777,6 +847,151 @@
       btnL.addEventListener('click', () => scrollPage(-1));
       btnR.addEventListener('click', () => scrollPage(1));
     });
+  </script>
+
+
+
+  <script>
+    const depthVideo = document.getElementById("depthVid");
+    const iframe = document.getElementById("depthFrame");
+
+    if (!depthVideo) console.error("Missing #depthVid on the overlay <video>.");
+    if (!iframe) console.error("Missing #depthFrame on the <iframe>.");
+
+    let timeInput = null;
+    let lastT = null;
+    let lastTChangeMs = performance.now();
+
+    function findTimeInput(doc) {
+      // Viser uses Mantine NumberInput -> often type="text".
+      // We find an input whose value is a finite number and changes over time.
+      const inputs = Array.from(doc.querySelectorAll("input"));
+      for (const inp of inputs) {
+        const v = parseFloat(inp.value);
+        if (Number.isFinite(v)) return inp;
+      }
+      return null;
+    }
+
+    function trySync() {
+      if (!depthVideo || !iframe) return;
+
+      let doc = null;
+      try {
+        doc = iframe.contentDocument || iframe.contentWindow?.document;
+      } catch (e) {
+        // This happens if the iframe is cross-origin.
+        console.error("Can't access iframe DOM (cross-origin). iframe src must be same origin.", e);
+        return;
+      }
+      if (!doc) return;
+
+      if (!timeInput || !doc.contains(timeInput)) {
+        timeInput = findTimeInput(doc);
+        if (!timeInput) return;
+      }
+
+      const t = parseFloat(timeInput.value);
+      if (!Number.isFinite(t)) return;
+
+      // Detect pause/play by whether t is changing.
+      const now = performance.now();
+      if (lastT === null || Math.abs(t - lastT) > 1e-3) {
+        lastT = t;
+        lastTChangeMs = now;
+        // Keep depth video playing while timeline moves.
+        depthVideo.play().catch(() => { });
+      } else {
+        // If timeline hasn't changed for a bit, pause depth video.
+        if (now - lastTChangeMs > 250) depthVideo.pause();
+      }
+
+      // Hard sync the depth video time to viser time (with small deadband to avoid jitter).
+      if (Math.abs(depthVideo.currentTime - t) > 0.06) {
+        depthVideo.currentTime = t;
+      }
+    }
+
+    // Wait for iframe to load at least once, then start polling.
+    iframe.addEventListener("load", () => {
+      timeInput = null;
+    });
+
+    setInterval(trySync, 50);
+  </script>
+
+  <script>
+    // EDIT THESE LISTS ONLY
+    const RUNS = {
+      teacher: [
+        { label: "test", path: "/recordings/teacher_run/test" },
+        { label: "test", path: "/recordings/teacher_run/test" },
+        { label: "test", path: "/recordings/teacher_run/test" },
+        { label: "test", path: "/recordings/teacher_run/test" },
+      ],
+      blind: [
+        { label: "test", path: "/recordings/blind_run/test" },
+        { label: "test", path: "/recordings/blind_run/test" },
+        { label: "test", path: "/recordings/blind_run/test" },
+        { label: "test", path: "/recordings/blind_run/test" },
+      ],
+      depth: [
+        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
+        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
+        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
+        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
+      ]
+    };
+
+    function setFramePlayback(frameId, runBasePath) {
+      const frame = document.getElementById(frameId);
+      if (!frame) return;
+      frame.src = `/viser-client/?playbackPath=${runBasePath}/scene.viser`;
+    }
+
+    function setDepthVideo(videoId, videoPath) {
+      const vid = document.getElementById(videoId);
+      if (!vid) return;
+      vid.pause();
+      vid.src = videoPath;
+      vid.load();
+      vid.play().catch(() => { });
+    }
+
+    function buildTabs(role, ulId, frameId) {
+      const ul = document.getElementById(ulId);
+      ul.innerHTML = "";
+
+      const items = RUNS[role] || [];
+      items.forEach((item, idx) => {
+        const li = document.createElement("li");
+        if (idx === 0) li.classList.add("is-active");
+
+        const a = document.createElement("a");
+        a.textContent = item.label;
+        a.style.whiteSpace = "nowrap";
+
+        a.addEventListener("click", () => {
+          Array.from(ul.querySelectorAll("li")).forEach(x => x.classList.remove("is-active"));
+          li.classList.add("is-active");
+
+          setFramePlayback(frameId, item.path);
+          if (role === "depth" && item.depth) setDepthVideo("depthVid", item.depth);
+        });
+
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+
+      if (items[0]) {
+        setFramePlayback(frameId, items[0].path);
+        if (role === "depth" && items[0].depth) setDepthVideo("depthVid", items[0].depth);
+      }
+    }
+
+    buildTabs("teacher", "teacherTabs", "teacherFrame");
+    buildTabs("blind", "blindTabs", "blindFrame");
+    buildTabs("depth", "depthTabs", "depthFrame");
   </script>
 </body>
 
