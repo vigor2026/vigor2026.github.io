@@ -54,7 +54,7 @@
         <a class="navbar-item" href="#abstract">Abstract</a>
         <a class="navbar-item" href="#teaser">Teaser</a>
         <a class="navbar-item" href="#vision">Vision</a>
-        <a class="navbar-item" href="#viser">Viser</a>
+        <a class="navbar-item" href="#viser">3D</a>
         <a class="navbar-item" href="#method">Method</a>
         <a class="navbar-item" href="#fall">Fall</a>
         <a class="navbar-item" href="#stand">Stand-Up</a>
@@ -211,6 +211,74 @@
     </div>
   </section>
 
+  <!-- VISION -->
+  <section class="section" id="vision">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Vision-Enabled Fall Recovery</h2>
+
+          <div class="content has-text-justified vigor-prose">
+            <p>
+              We investigate the impact of vision on fall recovery by comparing our visual policy to a blind
+              proprioceptive-only policy.
+              The controller is activated <strong>only after the robot tilts 20 degrees</strong>, ensuring recovery
+              begins from a true fall.
+              The blind policy exhibits <strong>more unsafe behaviors</strong>, including increased head and neck
+              contacts and erratic motions.
+            </p>
+          </div>
+
+          <div class="columns is-mobile">
+            <div class="column is-half">
+              <p class="title is-5 has-text-centered"><span class="has-text-danger">Unsafe</span> Blind policy</p>
+            </div>
+            <div class="column is-half">
+              <p class="title is-5 has-text-centered"><span class="has-text-success">Safe</span> Visual policy (ours)
+              </p>
+            </div>
+          </div>
+
+          <div class="columns is-multiline vision-compare">
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/blind_sideways_ext.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/visual_sideways_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/blind_stair_FLIP_ext.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="content">
+                <video class="vigor-video" autoplay controls muted loop playsinline>
+                  <source src="./static/videos/comparison/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- SIM -->
   <section class="section" id="sim">
     <div class="container is-max-desktop">
@@ -324,7 +392,7 @@
 
                 <div class="vigor-sim-item vigor-sim-more">
                   <div class="vigor-sim-more-inner">
-                    <div class="vigor-sim-more-title">More videos coming soon</div>
+                    <div class="vigor-sim-more-title">todo</div>
                     <!-- <div class="vigor-sim-more-sub">We’re adding additional terrains + real-world runs.</div> -->
                   </div>
                 </div>
@@ -352,6 +420,7 @@
       </div>
   </section>
 
+  <!-- VISER -->
   <section class="section" id="viser">
     <div class="container is-max-desktop">
       <h2 class="title is-2 has-text-centered">Interactive 3D Rollouts</h2>
@@ -373,6 +442,42 @@
           </div>
         </div>
 
+
+
+        <!-- DEPTH -->
+        <div class="viser-card" style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
+          <div style="padding:10px; font-weight:700;">Student (Depth)</div>
+
+          <div class="tabs is-small is-toggle is-toggle-rounded" style="padding:0 10px 10px 10px; margin:0;">
+            <ul id="depthTabs"></ul>
+          </div>
+
+          <div style="position:relative; aspect-ratio:16/9;">
+            <iframe id="depthFrame"
+              src="/viser-client/?playbackPath=/recordings/depth_run/2front1_depth_steps/scene.viser"
+              style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+            </iframe>
+
+
+            <div style="
+            position:absolute;
+            top:8px;
+            right:8px;
+            width:22%;
+            max-width:140px;
+            aspect-ratio:1/1;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 8px 24px rgba(0,0,0,0.35);
+            border:1px solid rgba(255,255,255,0.4);
+          ">
+              <video id="depthVid" src="/recordings/depth_run/2front1_depth_steps/depth_pre.mp4" autoplay muted
+                playsinline preload="auto" style="width:100%; height:100%; object-fit:cover;">
+              </video>
+            </div>
+          </div>
+        </div>
+
         <!-- BLIND -->
         <div class="viser-card" style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
           <div style="padding:10px; font-weight:700;">Student (Blind)</div>
@@ -388,108 +493,9 @@
           </div>
         </div>
 
-        <!-- DEPTH -->
-        <div class="viser-card" style="border:1px solid #ddd; border-radius:12px; overflow:hidden;">
-          <div style="padding:10px; font-weight:700;">Student (Depth)</div>
-
-          <div class="tabs is-small is-toggle is-toggle-rounded" style="padding:0 10px 10px 10px; margin:0;">
-            <ul id="depthTabs"></ul>
-          </div>
-
-          <div style="position:relative; aspect-ratio:16/9;">
-            <iframe id="depthFrame" src="/viser-client/?playbackPath=/recordings/depth_run/test/scene.viser"
-              style="position:absolute; inset:0; width:100%; height:100%; border:0;">
-            </iframe>
-
-            <div style="
-            position:absolute;
-            top:8px;
-            right:8px;
-            width:22%;
-            max-width:140px;
-            aspect-ratio:1/1;
-            border-radius:10px;
-            overflow:hidden;
-            box-shadow:0 8px 24px rgba(0,0,0,0.35);
-            border:1px solid rgba(255,255,255,0.4);
-          ">
-              <video id="depthVid" src="/recordings/depth_run/test/depth_pre.mp4" autoplay muted playsinline
-                preload="auto" style="width:100%; height:100%; object-fit:cover;">
-              </video>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
-  <!-- VISION -->
-  <section class="section" id="vision">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-2">Vision-Enabled Fall Recovery</h2>
-
-          <div class="content has-text-justified vigor-prose">
-            <p>
-              We investigate the impact of vision on fall recovery by comparing our visual policy to a blind
-              proprioceptive-only policy.
-              The controller is activated <strong>only after the robot tilts 20 degrees</strong>, ensuring recovery
-              begins from a true fall.
-              The blind policy exhibits <strong>more unsafe behaviors</strong>, including increased head and neck
-              contacts and erratic motions.
-            </p>
-          </div>
-
-          <div class="columns is-mobile">
-            <div class="column is-half">
-              <p class="title is-5 has-text-centered"><span class="has-text-danger">Unsafe</span> Blind policy</p>
-            </div>
-            <div class="column is-half">
-              <p class="title is-5 has-text-centered"><span class="has-text-success">Safe</span> Visual policy (ours)
-              </p>
-            </div>
-          </div>
-
-          <div class="columns is-multiline vision-compare">
-            <div class="column is-half">
-              <div class="content">
-                <video class="vigor-video" autoplay controls muted loop playsinline>
-                  <source src="./static/videos/comparison/blind_sideways_ext.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-
-            <div class="column is-half">
-              <div class="content">
-                <video class="vigor-video" autoplay controls muted loop playsinline>
-                  <source src="./static/videos/comparison/visual_sideways_overlay.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-
-            <div class="column is-half">
-              <div class="content">
-                <video class="vigor-video" autoplay controls muted loop playsinline>
-                  <source src="./static/videos/comparison/blind_stair_FLIP_ext.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-
-            <div class="column is-half">
-              <div class="content">
-                <video class="vigor-video" autoplay controls muted loop playsinline>
-                  <source src="./static/videos/comparison/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
 
 
   <!-- METHOD -->
@@ -541,7 +547,7 @@
           <div class="content has-text-justified vigor-prose">
             <p>
               We evaluate our policy on fall mitigation tasks across diverse terrains. We start the robot in a default
-              pose, and engage the policy once the robot has tilted past 20 degrees.
+              pose, and engage the policy <strong>only after the robot tilts 20 degrees</strong>.
             </p>
           </div>
 
@@ -849,72 +855,191 @@
     });
   </script>
 
-
-
   <script>
+    // === Depth overlay sync (viser -> depth video) + NO-FLICKER pause (freeze-frame canvas) ===
+
     const depthVideo = document.getElementById("depthVid");
     const iframe = document.getElementById("depthFrame");
 
-    if (!depthVideo) console.error("Missing #depthVid on the overlay <video>.");
-    if (!iframe) console.error("Missing #depthFrame on the <iframe>.");
+    if (!depthVideo) console.error("Missing #depthVid");
+    if (!iframe) console.error("Missing #depthFrame");
+
+    // ----------------------------
+    // Freeze-frame canvas to avoid flicker on pause
+    // ----------------------------
+    const freezeCanvas = document.createElement("canvas");
+    const freezeCtx = freezeCanvas.getContext("2d");
+
+    freezeCanvas.id = "depthFreeze";
+    freezeCanvas.style.position = "absolute";
+    freezeCanvas.style.inset = "0";
+    freezeCanvas.style.width = "100%";
+    freezeCanvas.style.height = "100%";
+    freezeCanvas.style.display = "none";
+    freezeCanvas.style.pointerEvents = "none";
+
+    const overlayParent = depthVideo?.parentElement; // your rounded overlay div
+    if (overlayParent) {
+      const cs = getComputedStyle(overlayParent);
+      if (cs.position === "static") overlayParent.style.position = "relative";
+      overlayParent.appendChild(freezeCanvas);
+    }
+
+    function showFreezeFrame() {
+      if (!depthVideo || !freezeCanvas || !freezeCtx) return;
+      if (depthVideo.readyState < 2) return; // need current frame decoded
+
+      const w = depthVideo.videoWidth || 1;
+      const h = depthVideo.videoHeight || 1;
+
+      // match intrinsic resolution
+      if (freezeCanvas.width !== w) freezeCanvas.width = w;
+      if (freezeCanvas.height !== h) freezeCanvas.height = h;
+
+      try {
+        freezeCtx.drawImage(depthVideo, 0, 0, w, h);
+        freezeCanvas.style.display = "block";
+        depthVideo.style.visibility = "hidden";
+      } catch (e) {
+        // drawImage can fail rarely (CORS / decoder). If so, don't freeze.
+        freezeCanvas.style.display = "none";
+        depthVideo.style.visibility = "visible";
+      }
+    }
+
+    function hideFreezeFrame() {
+      if (!depthVideo || !freezeCanvas) return;
+      freezeCanvas.style.display = "none";
+      depthVideo.style.visibility = "visible";
+    }
+
+    depthVideo?.addEventListener("pause", () => setTimeout(showFreezeFrame, 30));
+    depthVideo?.addEventListener("play", hideFreezeFrame);
+    depthVideo?.addEventListener("seeking", () => {
+      if (depthVideo.paused) setTimeout(showFreezeFrame, 30);
+    });
+    depthVideo?.addEventListener("loadedmetadata", hideFreezeFrame);
+
+    // ----------------------------
+    // Viser time syncing
+    // ----------------------------
 
     let timeInput = null;
     let lastT = null;
     let lastTChangeMs = performance.now();
 
+    // NEW: keep per-input history so we can pick the one that actually changes.
+    const inputState = new WeakMap(); // input -> { lastVal, lastChangeMs, changeCount }
+
     function findTimeInput(doc) {
-      // Viser uses Mantine NumberInput -> often type="text".
-      // We find an input whose value is a finite number and changes over time.
       const inputs = Array.from(doc.querySelectorAll("input"));
+      const now = performance.now();
+
+      // Update change stats for numeric inputs
       for (const inp of inputs) {
         const v = parseFloat(inp.value);
-        if (Number.isFinite(v)) return inp;
+        if (!Number.isFinite(v)) continue;
+
+        let st = inputState.get(inp);
+        if (!st) {
+          st = { lastVal: v, lastChangeMs: now, changeCount: 0 };
+          inputState.set(inp, st);
+          continue;
+        }
+        if (Math.abs(v - st.lastVal) > 1e-6) {
+          st.lastVal = v;
+          st.lastChangeMs = now;
+          st.changeCount += 1;
+        }
       }
-      return null;
+
+      // Pick the input that seems like "time":
+      // - has changed at least a few times
+      // - and changed recently
+      let best = null;
+      let bestScore = -Infinity;
+
+      for (const inp of inputs) {
+        const st = inputState.get(inp);
+        if (!st) continue;
+
+        const ageMs = now - st.lastChangeMs;
+        const score = (st.changeCount * 1000) - ageMs; // more changes + more recent wins
+
+        if (score > bestScore) {
+          bestScore = score;
+          best = inp;
+        }
+      }
+
+      return best; // may be null on first couple polls
+    }
+
+    function tryGetIframeDoc() {
+      try {
+        return iframe.contentDocument || iframe.contentWindow?.document || null;
+      } catch (e) {
+        console.error("Can't access iframe DOM (cross-origin). iframe src must be same origin.", e);
+        return null;
+      }
     }
 
     function trySync() {
       if (!depthVideo || !iframe) return;
 
-      let doc = null;
-      try {
-        doc = iframe.contentDocument || iframe.contentWindow?.document;
-      } catch (e) {
-        // This happens if the iframe is cross-origin.
-        console.error("Can't access iframe DOM (cross-origin). iframe src must be same origin.", e);
-        return;
-      }
+      const doc = tryGetIframeDoc();
       if (!doc) return;
 
+      // re-acquire the correct input if missing / changed
       if (!timeInput || !doc.contains(timeInput)) {
         timeInput = findTimeInput(doc);
-        if (!timeInput) return;
+        if (!timeInput) return; // warm up
       }
 
       const t = parseFloat(timeInput.value);
       if (!Number.isFinite(t)) return;
 
-      // Detect pause/play by whether t is changing.
+      // Detect whether viser is "paused" by whether t is changing.
       const now = performance.now();
+      let viserPaused = false;
+
       if (lastT === null || Math.abs(t - lastT) > 1e-3) {
         lastT = t;
         lastTChangeMs = now;
-        // Keep depth video playing while timeline moves.
-        depthVideo.play().catch(() => { });
+        viserPaused = false;
       } else {
-        // If timeline hasn't changed for a bit, pause depth video.
-        if (now - lastTChangeMs > 250) depthVideo.pause();
+        viserPaused = (now - lastTChangeMs > 250);
       }
 
-      // Hard sync the depth video time to viser time (with small deadband to avoid jitter).
+      // Match pause state: pause overlay when viser pauses; play when viser plays.
+      if (viserPaused) {
+        if (!depthVideo.paused) depthVideo.pause();
+        // Freeze-frame to avoid flicker
+        showFreezeFrame();
+      } else {
+        hideFreezeFrame();
+        if (depthVideo.paused) depthVideo.play().catch(() => { });
+      }
+
+      // Sync time (deadband to avoid jitter)
       if (Math.abs(depthVideo.currentTime - t) > 0.06) {
+        // If paused, update the frame and then refresh freeze snapshot
         depthVideo.currentTime = t;
+        if (viserPaused) setTimeout(showFreezeFrame, 30);
       }
     }
 
-    // Wait for iframe to load at least once, then start polling.
+    // Reset when iframe reloads (tab switch)
     iframe.addEventListener("load", () => {
       timeInput = null;
+      lastT = null;
+      lastTChangeMs = performance.now();
+      hideFreezeFrame();
+    });
+
+    // If source changes, start clean (your tab code calls vid.src + load())
+    depthVideo.addEventListener("loadedmetadata", () => {
+      hideFreezeFrame();
     });
 
     setInterval(trySync, 50);
@@ -924,23 +1049,92 @@
     // EDIT THESE LISTS ONLY
     const RUNS = {
       teacher: [
-        { label: "test", path: "/recordings/teacher_run/test" },
-        { label: "test", path: "/recordings/teacher_run/test" },
-        { label: "test", path: "/recordings/teacher_run/test" },
-        { label: "test", path: "/recordings/teacher_run/test" },
+        { label: "2front1 steps 1", path: "/recordings/teacher_run/2front1_teacher_steps_1" },
+        { label: "2front1 steps 2", path: "/recordings/teacher_run/2front1_teacher_steps_2" },
+        { label: "2front1 wave", path: "/recordings/teacher_run/2front1_teacher_wave" },
+        { label: "2side3 inv steps", path: "/recordings/teacher_run/2side3_teacher_inv_steps" },
+        { label: "7 backright steps", path: "/recordings/teacher_run/7_backright_teacher_steps" },
+        { label: "7 left slope", path: "/recordings/teacher_run/7_left_teacher_slope" },
+        { label: "7back steps 1", path: "/recordings/teacher_run/7back_teacher_steps_1" },
+        { label: "7back steps 2", path: "/recordings/teacher_run/7back_teacher_steps_2" },
+        { label: "7back wave", path: "/recordings/teacher_run/7back_teacher_wave" },
+        { label: "motion1 wave", path: "/recordings/teacher_run/motion1_teacher_wave" },
       ],
+
       blind: [
-        { label: "test", path: "/recordings/blind_run/test" },
-        { label: "test", path: "/recordings/blind_run/test" },
-        { label: "test", path: "/recordings/blind_run/test" },
-        { label: "test", path: "/recordings/blind_run/test" },
+        { label: "2front1 inv steps", path: "/recordings/blind_run/2front1_blind_inv_steps" },
+        { label: "2side3 inv steps", path: "/recordings/blind_run/2side3_blind_inv_steps" },
+        { label: "7 backright inv steps", path: "/recordings/blind_run/7_backright_blind_inv_steps" },
+        { label: "7left slope", path: "/recordings/blind_run/7left_blind_slope" },
+        { label: "back steps 1", path: "/recordings/blind_run/back_blind_steps_1" },
+        { label: "back steps 2", path: "/recordings/blind_run/back_blind_steps_2" },
+        { label: "back steps 3", path: "/recordings/blind_run/back_blind_steps_3" },
+        { label: "back wave", path: "/recordings/blind_run/back_blind_wave" },
+        { label: "front wave", path: "/recordings/blind_run/front_blind_wave" },
+        { label: "motion1 wave", path: "/recordings/blind_run/motion1_blind_wave" },
       ],
+
       depth: [
-        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
-        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
-        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
-        { label: "test", path: "/recordings/depth_run/test", depth: "/recordings/depth_run/test/depth_pre.mp4" },
-      ]
+        {
+          label: "2front1 steps", path: "/recordings/depth_run/2front1_depth_steps",
+          depth: "/recordings/depth_run/2front1_depth_steps/depth_pre.mp4"
+        },
+
+        {
+          label: "2front1 wave", path: "/recordings/depth_run/2front1_depth_wave",
+          depth: "/recordings/depth_run/2front1_depth_wave/depth_pre.mp4"
+        },
+
+        {
+          label: "2side3 inv steps 1", path: "/recordings/depth_run/2side3_depth_inv_steps_1",
+          depth: "/recordings/depth_run/2side3_depth_inv_steps_1/depth_pre.mp4"
+        },
+
+        {
+          label: "2side3 inv steps 2", path: "/recordings/depth_run/2side3_depth_inv_steps_2",
+          depth: "/recordings/depth_run/2side3_depth_inv_steps_2/depth_pre.mp4"
+        },
+
+        {
+          label: "7 backright inv 1", path: "/recordings/depth_run/7backright_depth_inv_steps_1",
+          depth: "/recordings/depth_run/7backright_depth_inv_steps_1/depth_pre.mp4"
+        },
+
+        {
+          label: "7 backright inv 2", path: "/recordings/depth_run/7backright_depth_inv_steps_2",
+          depth: "/recordings/depth_run/7backright_depth_inv_steps_2/depth_pre.mp4"
+        },
+
+        {
+          label: "7left slope", path: "/recordings/depth_run/7left_depth_slope",
+          depth: "/recordings/depth_run/7left_depth_slope/depth_pre.mp4"
+        },
+
+        {
+          label: "back steps 1", path: "/recordings/depth_run/back_depth_steps_1",
+          depth: "/recordings/depth_run/back_depth_steps_1/depth_pre.mp4"
+        },
+
+        {
+          label: "back steps 2", path: "/recordings/depth_run/back_depth_steps_2",
+          depth: "/recordings/depth_run/back_depth_steps_2/depth_pre.mp4"
+        },
+
+        {
+          label: "back steps 3", path: "/recordings/depth_run/back_depth_steps_3",
+          depth: "/recordings/depth_run/back_depth_steps_3/depth_pre.mp4"
+        },
+
+        {
+          label: "back wave", path: "/recordings/depth_run/back_depth_wave",
+          depth: "/recordings/depth_run/back_depth_wave/depth_pre.mp4"
+        },
+
+        {
+          label: "motion1 wave", path: "/recordings/depth_run/motion1_depth_wave",
+          depth: "/recordings/depth_run/motion1_depth_wave/depth_pre.mp4"
+        },
+      ],
     };
 
     function setFramePlayback(frameId, runBasePath) {
