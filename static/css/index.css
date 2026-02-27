@@ -409,54 +409,51 @@ body {
   }
 }
 
-
-#factorized .vigor-wide-video {
-  margin-top: 14px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: none;
-}
-
-/* remove border ONLY for this section’s video */
-#factorized .vigor-video {
-  border: none;
-  background: transparent;
-  display: block;
-}
-
-/* equation row */
+/* FACTORIZED caption row (match screenshot) */
 #factorized .vigor-factor-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-top: 16px;
-  flex-wrap: nowrap;
+  gap: 18px;
+  margin-top: 18px;
+  flex-wrap: wrap;
 }
 
 #factorized .vigor-factor-card {
-  padding: 0.55rem 0.85rem;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
   background: #fff;
-  min-width: 170px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: center;
+
+  flex: 0 1 260px;
+  /* 3 boxes on desktop, wrap on small screens */
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
 }
 
 #factorized .vigor-factor-symbol {
-  font-size: 1.4rem;
-  font-weight: 700;
-  opacity: 0.6;
-  flex-shrink: 0;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.45);
+  flex: 0 0 auto;
 }
 
-/* keep the text compact */
 #factorized .vigor-caption-title {
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 18px;
+  margin: 0;
 }
 
 #factorized .vigor-caption-sub {
-  font-size: 0.8rem;
-  opacity: 0.75;
-  margin-top: 2px;
+  font-size: 16px;
+  opacity: 0.65;
+  margin-top: 6px;
+}
+
+/* keep it single-row on wide screens */
+@media (min-width: 980px) {
+  #factorized .vigor-factor-row {
+    flex-wrap: nowrap;
+  }
 }
