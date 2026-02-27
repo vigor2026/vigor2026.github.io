@@ -457,3 +457,8 @@ body {
     flex-wrap: nowrap;
   }
 }
+
+#method .vigor-figure img {
+  border: none;
+  border-radius: 0;
+}
