@@ -140,6 +140,17 @@
               deployable egocentric-depth policy.
             </p>
 
+            <div class="vigor-top-video">
+              <video id="heroVid" autoplay muted loop playsinline controls preload="metadata">
+                <source src="./static/videos/comparison/fall_diagonal_stairs_FLIP_overlay.mp4" type="video/mp4">
+              </video>
+
+              <div class="vigor-vid-overlay" id="heroOverlay">
+                <div id="heroPolicy" class="hero-policy">Policy disabled</div>
+                <div id="heroExtra" class="hero-extra"></div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -1234,6 +1245,45 @@
     buildTabs("blind", "blindTabs", "blindFrame");
     buildTabs("depth", "depthTabs", "depthFrame");
   </script>
+
+
+  <script>
+    const heroVid = document.getElementById("heroVid");
+    const heroPolicy = document.getElementById("heroPolicy");
+    const heroExtra = document.getElementById("heroExtra");
+
+    const ENABLE_TIME = 3.7;
+    const PROTECT_TIME = 4.0;
+    const PROTECT_DURATION = 5.0;
+
+    function updateHeroOverlay() {
+      if (!heroVid || !heroPolicy || !heroExtra) return;
+      const t = heroVid.currentTime || 0;
+
+      heroPolicy.classList.remove("state-disabled", "state-enabled");
+
+      if (t >= ENABLE_TIME) {
+        heroPolicy.textContent = "Policy enabled";
+        heroPolicy.classList.add("state-enabled");
+      } else {
+        heroPolicy.textContent = "Policy disabled";
+        heroPolicy.classList.add("state-disabled");
+      }
+
+      if (t >= PROTECT_TIME && t < PROTECT_TIME + PROTECT_DURATION) {
+        heroExtra.textContent = "Terrain aware recovery!";
+      } else {
+        heroExtra.textContent = "";
+      }
+    }
+
+    ["timeupdate", "seeking", "seeked", "play", "loadedmetadata"].forEach(ev => {
+      heroVid?.addEventListener(ev, updateHeroOverlay);
+    });
+
+    updateHeroOverlay();
+  </script>
+
 </body>
 
 </html>
