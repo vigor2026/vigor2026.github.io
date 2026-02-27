@@ -56,6 +56,7 @@
         <a class="navbar-item" href="#vision">Vision</a>
         <a class="navbar-item" href="#viser">3D</a>
         <a class="navbar-item" href="#method">Method</a>
+        <a class="navbar-item" href="#factorized">Data</a>
         <a class="navbar-item" href="#fall">Fall</a>
         <a class="navbar-item" href="#stand">Stand-Up</a>
         <a class="navbar-item" href="#exp">Sim</a>
@@ -536,6 +537,52 @@
     </div>
   </section>
 
+  <!-- FACTORIZED DATA GEN -->
+  <section class="section" id="factorized">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full has-text-centered">
+          <h2 class="title is-2">Factorized Data Generation</h2>
+
+          <div class="content has-text-justified vigor-prose">
+            <p>
+              By factorizing motion priors and terrain variation, we enable scalable recovery learning without
+              exhaustive pose–terrain coverage.
+
+            </p>
+          </div>
+
+          <div class="vigor-wide-video">
+            <video class="vigor-video" autoplay controls muted loop playsinline preload="metadata">
+              <source src="./static/videos/factorized/factorized_data_gen.mov" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="vigor-factor-row">
+            <div class="vigor-factor-card">
+              <div class="vigor-caption-title">Human motions</div>
+              <div class="vigor-caption-sub">Sparse demos as structural priors</div>
+            </div>
+
+            <div class="vigor-factor-symbol">×</div>
+
+            <div class="vigor-factor-card">
+              <div class="vigor-caption-title">Terrain bank</div>
+              <div class="vigor-caption-sub">Independent geometry variation</div>
+            </div>
+
+            <div class="vigor-factor-symbol">=</div>
+
+            <div class="vigor-factor-card">
+              <div class="vigor-caption-title">Projected keypoints</div>
+              <div class="vigor-caption-sub">Scalable pose × terrain coverage</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- FALL -->
   <section class="section" id="fall">

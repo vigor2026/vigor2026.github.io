@@ -236,8 +236,7 @@ body {
 
 /* make ONLY the sim carousel section wider */
 #sim .container.is-max-desktop {
-  max-width: 1200px;
-  /* increase/decrease */
+  max-width: 1050px;
 }
 
 /* make the videos a bit bigger inside the 2x3 grid */
@@ -248,9 +247,10 @@ body {
 #sim .vigor-video {
   border-radius: 14px;
   width: 100%;
-  height: 200px;
-  /* bump to 280 if you want */
-  object-fit: cover;
+  height: auto;
+  /* let video keep its real ratio */
+  object-fit: contain;
+  /* no cropping */
   display: block;
 }
 
@@ -407,4 +407,56 @@ body {
     width: 40%;
     max-width: 260px;
   }
+}
+
+
+#factorized .vigor-wide-video {
+  margin-top: 14px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+/* remove border ONLY for this section’s video */
+#factorized .vigor-video {
+  border: none;
+  background: transparent;
+  display: block;
+}
+
+/* equation row */
+#factorized .vigor-factor-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 16px;
+  flex-wrap: nowrap;
+}
+
+#factorized .vigor-factor-card {
+  padding: 0.55rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  min-width: 170px;
+}
+
+#factorized .vigor-factor-symbol {
+  font-size: 1.4rem;
+  font-weight: 700;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+/* keep the text compact */
+#factorized .vigor-caption-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+#factorized .vigor-caption-sub {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-top: 2px;
 }
