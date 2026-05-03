@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Depth Viewer</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .viewer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .depth {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 500px;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      cursor: grab;
+      z-index: 10;
+      user-select: none;
+    }
+
+    .depth.dragging {
+      cursor: grabbing;
+    }
+
+    .depth video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="viewer" id="viewer">
+    <iframe src="/viser-client/?playbackPath=/recordings/depth_run/2front1_depth_wave/scene.viser"></iframe>
+
+    <div class="depth" id="depth">
+      <video autoplay loop muted playsinline>
+        <source src="/recordings/depth_run/2front1_depth_wave/depth_pre.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <script>
+    const viewer = document.getElementById("viewer");
+    const depth = document.getElementById("depth");
+
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    depth.addEventListener("mousedown", (e) => {
+      const rect = depth.getBoundingClientRect();
+      const parent = viewer.getBoundingClientRect();
+
+      dragging = true;
+      depth.classList.add("dragging");
+
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = rect.left - parent.left;
+      startTop = rect.top - parent.top;
+
+      depth.style.left = `${startLeft}px`;
+      depth.style.top = `${startTop}px`;
+      depth.style.right = "auto";
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      const maxLeft = viewer.clientWidth - depth.offsetWidth;
+      const maxTop = viewer.clientHeight - depth.offsetHeight;
+
+      const left = clamp(startLeft + dx, 0, maxLeft);
+      const top = clamp(startTop + dy, 0, maxTop);
+
+      depth.style.left = `${left}px`;
+      depth.style.top = `${top}px`;
+    });
+
+    window.addEventListener("mouseup", () => {
+      dragging = false;
+      depth.classList.remove("dragging");
+    });
+  </script>
+
+</body>
+
+</html>
