@@ -117,7 +117,7 @@ h2.title.is-3 {
   border-right: none;
 }
 
-.vigor-title {
+.publication-title.vigor-title {
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.06;
@@ -1044,7 +1044,7 @@ h2.title.is-3 {
     padding-bottom: 3.2rem;
   }
 
-  .vigor-title {
+  .publication-title.vigor-title {
     font-size: 1.72rem;
     line-height: 1.12;
     max-width: 100%;

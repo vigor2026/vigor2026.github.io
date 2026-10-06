@@ -6,7 +6,7 @@
   <meta name="description" content="A method for jointly solving humanoid stand-up and fall recovery tasks.">
   <meta name="keywords" content="VIGOR, Humanoid">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VIGOR</title>
+  <title>Unified Perceptive Fall Safety for Humanoids</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -44,7 +44,7 @@
   <nav class="navbar is-white is-fixed-top vigor-navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item vigor-brand" href="#top">
-        <strong>VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety</strong>
+        <strong>VIGOR</strong>
       </a>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="vigorNavbarMenu">
@@ -79,17 +79,8 @@
           <div class="column has-text-centered">
 
             <h1 class="title is-1 publication-title vigor-title">
-              <span class="vigor-title-line">
-                <span class="vigor-word">
-                  <span class="vigor-letter vigor-V">V</span><span class="vigor-letter vigor-I">I</span><span
-                    class="vigor-letter vigor-G">G</span><span class="vigor-letter vigor-O">O</span><span
-                    class="vigor-letter vigor-R">R</span>
-                </span>:
-                <span class="vigor-letter vigor-V">V</span><span class="vigor-letter vigor-I">i</span>sual
-                <span class="vigor-letter vigor-G">G</span><span class="vigor-letter vigor-O">o</span>al-In-Context
-                Infe<span class="vigor-letter vigor-R">r</span>ence
-              </span>
-              <span class="vigor-title-line">for Unified Humanoid Fall Safety</span>
+              <span class="vigor-title-line">Unified Perceptive Fall Safety</span>
+              <span class="vigor-title-line">for Humanoids</span>
             </h1>
             <!-- <p class="vigor-subtitle">
               Unified fall mitigation + stand-up recovery with egocentric vision.
@@ -238,11 +229,11 @@
                 <span class="hl">visual perception</span> through reinforcement learning or imitation learning,
                 often on flat terrain, limiting scalability and generalization.
 
-                We present a <span class="tag">unified</span> fall safety approach for all phases of fall recovery.
+                We present VIGOR, a <span class="tag">unified</span> fall safety approach for all phases of fall recovery.
                 It builds on two insights: 1) natural human fall and recovery poses are highly constrained and
                 transferable
-                from flat to complex terrain through alignment, and 2) fast whole-body reactions require
-                <span class="hl">integrated perceptual-motor representations</span>.
+                from flat to complex terrain through alignment, and 2) effective recovery depends on
+                <span class="hl">interpreting the recovery goal in relation to the surrounding terrain</span>.
 
                 We train a privileged teacher using sparse human demonstrations on flat and simulated complex terrains,
                 and distill it into a deployable student that relies only on
@@ -438,14 +429,14 @@
           </p>
 
           <ul class="content has-text-left method-list vigor-prose">
-            <li><strong>1. Motion retargeting:</strong> Human fall–recovery demonstrations are kinematically retargeted
-              to the robot.</li>
+            <li><strong>1. Motion retargeting:</strong> Human fall–recovery demonstrations collected on flat ground
+              are kinematically retargeted to the robot.</li>
             <li><strong>2. Terrain alignment:</strong> References are used directly on flat terrain and coarsely
               projected onto uneven terrain to provide sparse tracking targets.</li>
-            <li><strong>3. Teacher policy learning:</strong> A privileged teacher is trained with RL and learns a Visual
-              Goal-in-Context representation that captures the immediate recovery pose and local terrain.</li>
-            <li><strong>4. Goal-in-context distillation:</strong> A student distills the teacher’s terrain-aware
-              recovery behavior from egocentric depth and short-term proprioceptive history for deployment.</li>
+            <li><strong>3. Teacher policy learning:</strong> A privileged RL teacher learns a goal-in-context latent
+              representing the immediate recovery target in relation to local terrain.</li>
+            <li><strong>4. Visual student distillation:</strong> A student learns through latent supervision and action
+              imitation, using only egocentric depth and proprioceptive history at deployment.</li>
           </ul>
         </div>
       </div>
@@ -454,7 +445,8 @@
       <div class="columns is-centered">
         <div class="column is-full">
           <figure class="image vigor-figure">
-            <img src="./static/images/method.png" alt="Our method diagram">
+            <img src="./static/images/method.png" width="3164" height="1016" loading="lazy"
+              alt="VIGOR overview: motion retargeting, terrain alignment, teacher policy learning, and visual student distillation through latent supervision and action imitation">
           </figure>
         </div>
       </div>
@@ -758,7 +750,7 @@
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
       <pre><code>@article{anonymous2026vigor,
-  title   = {VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety},
+  title   = {Unified Perceptive Fall Safety for Humanoids},
   author  = {anonymous},
   journal = {},
   year    = {2026}
@@ -771,7 +763,7 @@
     <div class="container is-max-desktop">
       <div class="content has-text-centered vigor-footer-topbar">
         <p class="vigor-footer-title">
-          VIGOR: Visual Goal-In-Context Inference for Unified Humanoid Fall Safety
+          Unified Perceptive Fall Safety for Humanoids
         </p>
         <p class="vigor-footer-muted">
           Page template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
