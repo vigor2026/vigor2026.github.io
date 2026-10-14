@@ -88,6 +88,13 @@ h2.title.is-3 {
   margin-top: 0.45rem;
 }
 
+.vigor-umich-logo {
+  display: block;
+  width: 320px;
+  max-width: 80vw;
+  height: auto;
+}
+
 .vision-compare {
   margin-top: 0.65rem;
 }
